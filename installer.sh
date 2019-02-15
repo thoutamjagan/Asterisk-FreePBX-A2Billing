@@ -3,10 +3,6 @@
 #Installing Asterisk & FreePBX
 ##############################
 
-# Allow login as root via SSH
-sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-service sshd restart
-
 #Update Your System
 apt-get update && apt-get upgrade -y 
 
