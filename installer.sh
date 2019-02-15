@@ -141,39 +141,6 @@ option=3
 
 EOF
 
-# Download and install FreePBX.
-cd /usr/src
-wget http://mirror.freepbx.org/modules/packages/freepbx/freepbx-13.0-latest.tgz
-tar vxfz freepbx-13.0-latest.tgz
-rm -f freepbx-13.0-latest.tgz
-cd freepbx
-./start_asterisk start
-./install
-
-#systemd startup script for FreePBX
-rm -f /etc/systemd/system/freepbx.service
-cat >> /etc/systemd/system/freepbx.service << EOF
-[Unit]
-Description=FreePBX VoIP Server
-After=mysql.service
- 
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/sbin/fwconsole start
-ExecStop=/usr/sbin/fwconsole stop
- 
-[Install]
-WantedBy=multi-user.target
-
-EOF
-
-systemctl enable freepbx.service
-ln -s '/etc/systemd/system/freepbx.service' '/etc/systemd/system/multi-user.target.wants/freepbx.service'
-systemctl start freepbx
-
-#checking the output of the startup
-systemctl status -l freepbx.service
 
 #Installing A2Billing
 ##########################
